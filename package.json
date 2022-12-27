@@ -2,7 +2,6 @@
   "name": "api-gerarPdf",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/robyrt1/api-gerarPdf.git",
   "author": "robyrt1 <robertpinto1190.rpm@gmail.com>",
   "license": "MIT",
   "scripts": {
