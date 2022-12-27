@@ -18,7 +18,7 @@ const generatePdf = (data) => {
             console.log(error.message)
             reject( error.message)
         }
-        resolve(filePath)
+        resolve({filePath: filePath})
     });
   });
 };
