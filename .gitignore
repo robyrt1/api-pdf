@@ -5,3 +5,5 @@ data
 html.json
 rx.json
 uploads
+yarn-error.log
+yarn.lock
