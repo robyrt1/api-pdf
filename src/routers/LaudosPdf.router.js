@@ -1,11 +1,11 @@
-const { GeneratePdfController } = require("../controllers/GeneratePDF.controller")
+const { GeneratePdfController } = require("../controllers/LaudosPDF.controller")
 const generatePdfController = new GeneratePdfController()
 const { Router } = require('express')
 
 
 const router = Router();
 
-router.get('/html', (req, res, next)=>{
+router.post('/html', (req, res, next)=>{
     generatePdfController.getGeneratePDF(req, res, next);
 })
 

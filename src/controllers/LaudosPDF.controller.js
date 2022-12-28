@@ -1,13 +1,14 @@
-const { GeneratePdfService } = require("../services/GeneratePDF.service")
-const {data:rx} = require("../../rx.json")  
+const { LaudosPdfService } = require("../services/LaudosPdf.service")
+const {data:rx} = require("../../html.json")  
 class GeneratePdfController { 
     constructor(){
-        this.generatePdfService = new GeneratePdfService();
+        this.laudosPdfService = new LaudosPdfService();
     }
 
      async getGeneratePDF(req, res, next){
         try {
-            const result = await this.generatePdfService.getGeneratePDF(rx)
+            const { data } = req.body
+            const result = await this.laudosPdfService.getGeneratePDF(rx)
             res.setHeader('content-disposition', 'incline; filename="output.pdf');
             res.setHeader('content-type', 'application/pdf');
             result.pipe(res);
