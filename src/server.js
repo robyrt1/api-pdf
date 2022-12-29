@@ -1,14 +1,19 @@
-const express =  require("express");
-require('dotenv').config()
+const { ExpressConfig } = require("./config/expressConfig")
+const { EnvironmentShared } = require("./shared/environment.shared");
 
-const router = require("./routers/LaudosPdf.router");
+const expressConfig  = new ExpressConfig()
+const environmentShared = new EnvironmentShared()
+const serverPort = environmentShared.getEnv("SERVER_PORT");
 
-const app = express();
-app.use(express.json())
-const server_port = process.env.SERVER_PORT || 3334;
 
-app.use(router)
+expressConfig.getServer().set('view engine', 'ejs');
+expressConfig.getServer().set('views', './src/templates');
 
-app.listen(server_port, ()=>{
-    console.log(`Server running on port ${server_port}`)
+expressConfig.getServer().get('/',(req,res)=>{
+    const data = require('../html.json')
+    res.render('./laudos/index',data);
+})
+ 
+expressConfig.getServer().listen(serverPort,()=>{
+    console.log(`Server running on port ${serverPort}`) 
 })
