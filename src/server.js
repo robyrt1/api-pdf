@@ -10,7 +10,7 @@ expressConfig.getServer().set('view engine', 'ejs');
 expressConfig.getServer().set('views', './src/templates');
 
 expressConfig.getServer().get('/',(req,res)=>{
-    const data = require('../html.json')
+    const data = require('../excluir/html.json')
     res.render('./laudos/index',data);
 })
  
