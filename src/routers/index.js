@@ -1,4 +1,4 @@
-const laudos = require("./LaudosPdf.router")
+const laudos = require("./ReportsPdf.router")
 
 const router = [
     laudos
