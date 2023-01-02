@@ -1,4 +1,4 @@
-const { ReportsPdfController } = require("../controllers/LaudosPDF.controller")
+const { ReportsPdfController } = require("../controllers/ReportsPDF.controller")
 const reportsPdfController = new ReportsPdfController()
 
 const reportsRouter = (app)=>{

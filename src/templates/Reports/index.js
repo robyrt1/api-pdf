@@ -15,8 +15,9 @@ const laudosTemplate = (data)=>{
 
 
     <div style="width: 100%; margin-bottom: 10px; border: solid 1px #93b8a6;
-       min-height: 200px;">
-       <div class="col-12"  >
+       min-height: 400px;">
+       <div class="col-12" style="margin:10px;" max-width!importants:50%; heigth:50% -web-transform:scale(0.93); -moz-tranform:scanle(0.67);
+       transform:scanle(0.67) >
            ${data.data}
        </div>
     </div>

@@ -11,7 +11,7 @@ expressConfig.getServer().set('views', './src/templates');
 
 expressConfig.getServer().get('/',(req,res)=>{
     const data = require('../excluir/html.json')
-    res.render('./laudos/index',data);
+    res.render('./Reports/index',data);
 })
  
 expressConfig.getServer().listen(serverPort,()=>{

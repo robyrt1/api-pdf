@@ -1,0 +1,26 @@
+<div style="display: flex; flex-direction: row; width: 100%; margin-bottom: 10px;">
+    <div style=width:50%; border: solid 1px #93b8a6; padding-left: 10px;>
+        <p style="margin:5px 0px 0px 0px;"><strong>Paciente:</strong> {atendimento.nomeCliente}</p>
+        <p style="margin:0px 0px 5px 0px;"><strong>Data Nasc:</strong> {atendimento.dataNascimento}</p>
+
+    </div>
+    <div style="width: 50%; border: solid 1px #93b8a6; padding-left: 10px;">
+        <p style="margin:5px 0px 0px 0px;"><strong>Convênio:</strong>{atendimento.dsConvenio}</p>
+        <p style="margin:0px 0px 5px 0px;"><strong>Setor:</strong> {atendimento.dsSetor}</p>
+    </div>
+</div>
+
+<div style="display: flex; flex-direction: row; width: 100%; margin-bottom: 10px; height: 100px;">
+    <div style="width:100%; border: solid 1px #93b8a6;">
+        <p style="margin:5px 0px 5px 10px; text-align: center; ">
+            <strong>{data.tipoProfissional}:</strong> {data.profissional}
+        </p>
+        <p style="margin:5px 0px 5px 10px;text-align: center;"><strong>Data de Entrada:</strong>
+            {data.atendimento[0].dataEntrada}</p>
+    </div>
+    <div style="max-width:100%; border: solid 1px #93b8a6; padding-left: 10px;">
+        <p style="margin: 5px 0px 0px 0px; text-align: left;"><strong>Assinatura:</strong></p>
+        <p style="margin:5px 0px 5px 0px; text-align: center">
+            {data.atendimento[0].dsAssinatura}</p>
+    </div>
+</div>

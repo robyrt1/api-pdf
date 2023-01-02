@@ -1,4 +1,5 @@
 const { ReportsPdfService } = require("../services/ReportsPdf.service");
+const rx =require("../../excluir/rx.json")
 class ReportsPdfController {
   constructor() {
     this.reportsPdfService = new ReportsPdfService();
