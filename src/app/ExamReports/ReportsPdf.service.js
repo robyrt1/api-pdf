@@ -1,28 +1,11 @@
-const generatePDFromString = require("../util/generatePdf");
-const createReadStream = require("../util/createReadStream");
-const laudosTemplate = require("../templates/Reports/index");
-const { OK, INTERNAL_SERVER_ERROR } = require("../shared/constants/http.code");
+const generatePDFromString = require("../../util/generatePdf");
+const createReadStream = require("../../util/createReadStream");
+const laudosTemplate = require("../../templates/ExamReports/index");
+const { OK, INTERNAL_SERVER_ERROR } = require("../../shared/constants/http.code");
 class ReportsPdfService {
   async getGeneratePDF(data) {
     try {
       const template = laudosTemplate(data);
-
-      const htmlWithNewTags = `
-          <html>
-              <head>
-                  <style>
-                      html, body {
-                          font-size: 0.740000em;
-                      }
-                  </style>    
-              </head>
-          <body >
-              <div >
-                  ${template}
-              <div>
-          </body>
-          </html>`;
-
       const options = {
         format: "A4",
         type: "pdf",
@@ -47,10 +30,12 @@ class ReportsPdfService {
           // }
         },
       };
-      const { filePath } = await generatePDFromString(htmlWithNewTags, options);
+
+      const { filePath } = await generatePDFromString(template, options);
       console.log(filePath);
       const stream = await createReadStream(filePath);
-      return stream;
+
+      return {status:true , dado: filePath, message:`Sucesso`};
     } catch (err) {
       return { statusCode: INTERNAL_SERVER_ERROR, messagem: err.mensage };
     }
