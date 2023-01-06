@@ -1,7 +1,5 @@
-const laudos = require("../app/ExamReports/ReportsPdf.router")
+const laudos = require("../app/ExamReports/ReportsPdf.router");
+const laboratoryTest = require("../app/LaboratoryTest/LaboratoryTest.router");
+const router = [laudos,laboratoryTest ];
 
-const router = [
-    laudos
-]
-
-module.exports = router
+module.exports = router;

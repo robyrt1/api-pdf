@@ -1,10 +1,8 @@
 const generatePDFromString = require("../../util/generatePdf");
 const createReadStream = require("../../util/createReadStream");
-const laudosTemplate = require("../../templates/ExamReports/index");
-
-
-
-class ReportsPdfService {
+const laboratoryTestTemplate = require("../../templates/LaboratoryTest/index");
+const { OK, INTERNAL_SERVER_ERROR } = require("../../shared/constants/http.code");
+class LaboratoryTestService {
   async getGeneratePDF(data) {
     try {
       const template = laudosTemplate(data);
@@ -38,9 +36,9 @@ class ReportsPdfService {
 
       return { status: true, dado: url_file, message: `Sucesso` };
     } catch (err) {
-      return { statusCode: 500, messagem: err.mensage };
+      return { status: false, messagem: err.mensage };
     }
   }
 }
 
-module.exports = { ReportsPdfService };
+module.exports = { LaboratoryTestService }

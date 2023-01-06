@@ -1,5 +1,5 @@
 const express = require("express");
-const route = require("../routers/index.js");
+const routes = require("../routers/index.js");
 class ExpressConfig {
   constructor() {
     if (!ExpressConfig._instance) ExpressConfig._instance = this;
@@ -35,7 +35,7 @@ class ExpressConfig {
     this.setServer();
     const middlewares = [express.json()];
     this.setMiddlewares(middlewares);
-    this.setRoutes(route);
+    this.setRoutes(routes);
     this.setErrorLogHandlers();
   }
 }

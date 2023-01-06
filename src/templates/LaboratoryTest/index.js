@@ -1,12 +1,10 @@
-  /* 
+/* 
   Para fazer a estilização com flex, é necessario usar webkit
   exemplo :
   "display:-webkit-flex;"
   "display: -webkit-align-items: center;"
   */
-
-const laudosTemplate = (data) => {
-
+const laboratoryTestTemplate = (data) => {
   const template = `
   <html>
 
@@ -71,64 +69,23 @@ const laudosTemplate = (data) => {
         </div>
       </div>
   
+
+      <div style="border: solid 1px #93b8a6; margin-bottom:10px; text-align:center;">
+        <p><strong>Médico(a) Solicitante: </strong>@MEDICO_SOLICITANTE</p>
+      </div>
+
       <!--body Dinamico inicio-->
   
       <div style="width: 100%; margin-bottom: 10px; border: solid 1px #93b8a6;min-height: 400px;">
         <div style="margin:5px;heigth:50%; word-break: break-all;font-size: 0.2em;">
           <!--Inicio-->
           <div>
-            <div style="display:-webkit-inline-flex; width: 100%; margin-bottom: 5px;">
-              <div style="width:70%;">
-                <p style="margin-bottom: 5px; font-size: 7pt;"><strong> DATA: </strong>@DATA_PRESCRICAO</p>
-                <p style="margin-bottom: 5px; font-size: 7pt;"><strong> REGISTRO: </strong>@NUMEROTENDIMENTO</p>
-                <p style="margin-bottom: 5px; font-size: 7pt;"><strong> NOME: </strong>@NM_PACIENTE</p>
-                <p style="margin-bottom: 5px; font-size: 7pt;"><strong>SOliCITANTE:
-                  </strong>@MEDICO_SOLICITANTE</p>
-              </div>
-              <div style=" width:50% margin-left: 3%">
-                <p style="width:60%; margin-bottom: 5px; font-size: 7pt;width:100%;"><strong>DATA NASC: </strong>@DT_NASCIMENTO
-                </p>
-                <p style="margin-bottom: 5px; font-size: 7pt ;"><strong>IDADE: </strong>@IDADE_ATENDIMENTO</p>
-              </div>
-            </div>
-
-            <div style="text-align: center; font-size:6pt; margin-bottom: 20px;">
-              <h1>LAUDO DE EXAME</h1>
-            </div>
-
-            <div style="">
-              <h1 style="text-align: center; font-size:7pt;">MAMOGRAFIA BILATERAL</h1>
-              <div style="margin-right:50px">
-                <div style="padding-left:10%; font-size:7pt;">
-                  <p><strong>Técnica de exame:</strong></p>
-                  <p>O estudo radiográfico das mamas, realizado com incidências crânio-caudal e médio-lateral oblíqua,
-                    evidencia:</p>
-                </div>
-  
-                <div style="padding-left:10%;font-size:7pt;">
-                  <p><strong>Relatório:</strong></p>
-                  <p>Pele, papilas e tecido subcutâneo sem alterações.
-                    Parênquima mamário com composição heterogeneamente dens
-                    a, o que pode obscurecer nódulos.Não se identificam nódulos,
-                    microcalcificações agrupadas ou distorção arquitetural de carát
-                    er relevante.
-                    Espaço retromamário preservado.
-                    Não há sinais de linfonodomegalias axilares</p>
-                </div>
-  
-                <div style="padding-left:10%;font-size:7pt;">
-                  <p><strong>Conclusão:</strong></p>
-                  <p>Achados radiológicos benignos.
-                    CATEGORIA 2 pelo sistema de padronização de laudos BIRA
-                    DS.</p>
-                </div>
-  
-                <div style="padding-left:10%;font-size:7pt;">
-                  <p><strong>Comentários:</strong></p>
-                  <p>A critério clínico, sugere-se controle radiográfico de rotina.</p>
-                </div>
-              </div>
-            </div>
+            <p style="font-size: 9pt"><strong>@ExameLaboratorial</strong></p>
+            <p style="font-size: 6pt">Material: @MATERIAL</p>
+            <p style="font-size: 6pt">Método: @METODO</p>
+            <p style="font-size: 6pt">Valor de Referência: @VALOR_REFERENCIA</p>
+            <p style="font-size: 6pt">Resultado: @RESULTADO</p>
+            <p style="font-size: 6pt">Resultados Anteriores: @RESULTADOS_ANTERIORES</p>
           </div>
           <!--FIM-->
         </div>
@@ -172,8 +129,8 @@ const laudosTemplate = (data) => {
   </html>
 
 `;
-
   return template;
 };
 
-module.exports = laudosTemplate;
+
+module.exports = laboratoryTestTemplate
