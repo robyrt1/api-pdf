@@ -1,11 +1,7 @@
 const generatePDFromString = require("../../util/generatePdf");
-const createReadStream = require("../../util/createReadStream");
-const laboratoryTestTemplate = require("../../templates/LaboratoryTest/index");
-const { OK, INTERNAL_SERVER_ERROR } = require("../../shared/constants/http.code");
 class LaboratoryTestService {
   async getGeneratePDF(data) {
     try {
-      const template = laudosTemplate(data);
       const options = {
         format: "A4",
         type: "pdf",
@@ -31,14 +27,14 @@ class LaboratoryTestService {
         },
       };
 
-      const url_file  = await generatePDFromString(template, options);
-      console.log('filePath >>>',url_file);
+      const url_file  = await generatePDFromString(data, options);
+      console.log('"filePath >>>"',url_file);
 
       return { status: true, dado: url_file, message: `Sucesso` };
-    } catch (err) {
-      return { status: false, messagem: err.mensage };
+    } catch (error) {
+      return { status: false, messagem: error.mensage };
     }
   }
 }
 
-module.exports = { LaboratoryTestService }
+module.exports = { LaboratoryTestService };

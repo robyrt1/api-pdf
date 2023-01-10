@@ -6,10 +6,10 @@ const NO_CONTENT = 204;
 const NOT_FOUND = 404 ;
 
 module.exports = {
-    OK,
-    CREATED,
-    BAD_REQUEST,
-    INTERNAL_SERVER_ERROR,
-    NO_CONTENT,
-    NOT_FOUND
-}
+  OK,
+  CREATED,
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  NO_CONTENT,
+  NOT_FOUND
+};

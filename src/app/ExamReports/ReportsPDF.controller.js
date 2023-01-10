@@ -1,25 +1,30 @@
 const { ReportsPdfService } = require("./ReportsPdf.service");
-const fs  =require('fs')
-const path = require('path')
 class ReportsPdfController {
   constructor() {
     this.reportsPdfService = new ReportsPdfService();
   }
 
-  async getGeneratePDF(req, res, next) {
+  async getGeneratePDF(req, res) {
     try {
-      const result = await this.reportsPdfService.getGeneratePDF(req.body);
-      // res.setHeader("content-disposition", 'incline; filename="output.pdf');
-      // res.setHeader("content-type", "application/pdf");
-      // result.pipe(res);
-      // fs.unlinkSync(path.resolve(__dirname,'../../', result.dado))
+      const { html, fileName } = req.body;     
+      const result = await this.reportsPdfService.GeneratePDF(html, fileName);
 
-      res.status(200).json(result)
+      res.status(200).json(result);
+      
     } catch (err) {
       res.status(500).json({ Error: err.message });
+    }
+  }
+
+  async getFile(req, res) {
+    try {
+      const { fileName } = req.body;
+      const result = await this.reportsPdfService.getFile(fileName);
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json(error);
     }
   }
 }
 
 module.exports = { ReportsPdfController };
- 

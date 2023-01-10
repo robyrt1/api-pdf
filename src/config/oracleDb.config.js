@@ -9,35 +9,35 @@ class OracleDBConfig {
     return this.getInstance();
   }
 
-  getInstance(){
+  getInstance() {
     return OracleDBConfig._instance;
   }
 
-  connect(){
-    if(!this.getConnectionDB()) {
+  connect() {
+    if (!this.getConnectionDB()) {
       this.getInstance().connection = oracledb.createPool({
-        user: this.environmentShared.getEnv('DB_USER'),
-        password: this.environmentShared.getEnv('DB_PASSWORD'),
-        connectionString: this.environmentShared.getEnv('DB_HOST'),
-        poolIncrement:0,
+        user: this.environmentShared.getEnv("DB_USER"),
+        password: this.environmentShared.getEnv("DB_PASSWORD"),
+        connectionString: this.environmentShared.getEnv("DB_HOST"),
+        poolIncrement: 0,
         poolMax: 1,
         poolMin: 1,
-      })
+      });
+      console.log("[INFO] - Database is connected: ");
     }
   }
 
-  getConnectionDB(){
+  getConnectionDB() {
     return this.getInstance().connection;
   }
 
-  execQuery(query,data){
-    try{
-
-      const result = this.getConnectionDB().execute(query, data? data: [])
-      this.getConnectionDB().pool.close()
-      return result
-    }catch(error){
-      throw { status: false, message:error}
+  execQuery(query, data) {
+    try {
+      const result = this.getConnectionDB().execute(query, data ? data : []);
+      this.getConnectionDB().pool.close();
+      return result;
+    } catch (error) {
+      throw { status: false, message: error };
     }
   }
 }

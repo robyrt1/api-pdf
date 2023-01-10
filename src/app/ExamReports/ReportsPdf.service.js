@@ -1,17 +1,15 @@
-const generatePDFromString = require("../../util/generatePdf");
-const createReadStream = require("../../util/createReadStream");
-const laudosTemplate = require("../../templates/ExamReports/index");
-
-
-
+const { GeneratePDFromString } = require("../../util/generatePdf");
+const httpResponseMappingHandlerShared = require("../../shared/httpResponseMappingHandler.shared");
 class ReportsPdfService {
-  async getGeneratePDF(data) {
+  constructor() {
+    this.generatePDFromString = new GeneratePDFromString();
+  }
+  async GeneratePDF(html,fileName) {
     try {
-      const template = laudosTemplate(data);
+      // const fileName = "";
       const options = {
         format: "A4",
         type: "pdf",
-        // border: {
         //   right: "0.1in", // iin = 96px
         //   bottom: "0.1in",
         //   left: "0.1in",
@@ -19,26 +17,48 @@ class ReportsPdfService {
         zoomFactor: "0.1",
         header: {
           height: "5mm",
-          // contents: {
-          //   first: ``,
-          // },
         },
         footer: {
           height: "10mm",
-          // margin: { bottom: "100%" },
-          // width: "80mm",
-          // contents: {
-          //   last: ``,
-          // }
         },
       };
 
-      const url_file  = await generatePDFromString(template, options);
-      console.log('filePath >>>',url_file);
+      const url_file = await this.generatePDFromString.Generate(
+        html,
+        options,
+        fileName
+      );
+      console.log("filePath >>>", url_file , '">>"', new Date());
 
-      return { status: true, dado: url_file, message: `Sucesso` };
-    } catch (err) {
-      return { statusCode: 500, messagem: err.mensage };
+      const httpResponseMenssage = "Sucesso na requisição";
+      return httpResponseMappingHandlerShared(
+        true,
+        url_file,
+        httpResponseMenssage
+      );
+    } catch (error) {
+      return { statusCode: 500, messagem: error.mensage };
+    }
+  }
+
+  async getFile(fileName) {
+    try {
+      const data = await this.generatePDFromString.getFile(fileName);
+
+      if (!data) {
+        throw httpResponseMappingHandlerShared(
+          false,
+          [],
+          "Erro ao listar Laudos Exames"
+        );
+      }
+
+      const httpResponseMenssage = "Sucesso ao listar Laudos Exames!";
+      return httpResponseMappingHandlerShared(true, data, httpResponseMenssage);
+
+    } catch (error) {
+      console.log(error);
+      return httpResponseMappingHandlerShared(false, [], error);
     }
   }
 }

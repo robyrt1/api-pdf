@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const routes = require("../routers/index.js");
 class ExpressConfig {
   constructor() {
@@ -33,7 +34,10 @@ class ExpressConfig {
   }
   init() {
     this.setServer();
-    const middlewares = [express.json()];
+    const middlewares = [
+      bodyParser.json(),
+      bodyParser.urlencoded({ extended: false }),
+    ];
     this.setMiddlewares(middlewares);
     this.setRoutes(routes);
     this.setErrorLogHandlers();
