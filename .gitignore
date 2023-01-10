@@ -11,4 +11,4 @@ index.html
 template.json
 excluir
 public
-env-files
+env-files/.config.dev.env
