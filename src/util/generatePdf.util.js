@@ -1,8 +1,10 @@
 const pdf = require("html-pdf");
 const { v4: uuidv4 } = require("uuid");
+const aws = require("aws-sdk");
+
+const mountingFileUrls = require("../shared/mountingFileUrls.shared");
 const { EnvironmentShared } = require("../shared/environment.shared");
 const environmentShared = new EnvironmentShared();
-const aws = require("aws-sdk");
 
 const s3 = new aws.S3({
   accessKeyId: environmentShared.getEnv("AWS_ACCESS_KEY_ID"),
@@ -35,7 +37,7 @@ class GeneratePDFromString {
     });
   }
 
-  getFile(fileName) {
+  getFileFromAWS(fileName) {
     return new Promise((resolve, reject) => {
 
       const params = {
@@ -50,10 +52,27 @@ class GeneratePDFromString {
           reject(error);
         }
 
-        const key = data.Contents[0].Key;
-        const url_file = `${environmentShared.getEnv("URL_FILE_AWS").replace("fileName", key)}`;
+        const key = data.Contents;
+        const url_files = mountingFileUrls(key, environmentShared.getEnv("URL_FILE_AWS"));
         
-        resolve(url_file);
+        resolve(url_files);
+      });
+    });
+  }
+
+
+  generatePdfSaveLocation(data,options, fileNamePdf){
+    return new Promise((resolve, reject) => {
+      const TMP_FILE_PATH = process.env.TMP_FILE_PATH || "./uploads";
+      const fileName = `${fileNamePdf}-${uuidv4()}.pdf`;
+      const filePath = `${TMP_FILE_PATH}/${fileName}`;
+  
+      pdf.create(data, options).toFile(filePath,(error)=>{
+        if(error){
+          console.log(error.message);
+          reject( error.message);
+        }
+        resolve({filePath: filePath});
       });
     });
   }

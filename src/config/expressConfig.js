@@ -27,7 +27,7 @@ class ExpressConfig {
     });
   }
   setErrorLogHandlers() {
-    this.getServer().use(function (error, req, res, next) {
+    this.getServer().use(function (error, req, res,) {
       console.error(error);
       res.status(error.statusCode || 500).json(error);
     });

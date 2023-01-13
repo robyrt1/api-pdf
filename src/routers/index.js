@@ -1,5 +1,4 @@
-const laudos = require("../app/ExamReports/ReportsPdf.router");
-const laboratoryTest = require("../app/LaboratoryTest/LaboratoryTest.router");
-const router = [laudos,laboratoryTest ];
+const generatePdfUploadToAWS = require("./GeneratePdfUploadToAWS.router");
+const router = [generatePdfUploadToAWS];
 
 module.exports = router;
