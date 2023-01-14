@@ -4,26 +4,12 @@ class GeneratePdfUploadToAwsService {
   constructor() {
     this.generatePDFromString = new GeneratePDFromString();
   }
-  async generate(html,fileName) {
+  async generate(html, fileName) {
     try {
-      const options = {
-        format: "A4",
-        type: "pdf",
-        zoomFactor: "0.1",
-        header: {
-          height: "5mm",
-        },
-        footer: {
-          height: "10mm",
-        },
-      };
+      if (typeof html != "string")
+        throw `[ERROR] - Tipo: ${typeof html} invalido, correto é string!`;
 
-      const url_file = await this.generatePDFromString.Generate(
-        html,
-        options,
-        fileName
-      );
-      console.log(`[URL_FILE] - ${url_file} --> ${new Date().toLocaleDateString("pt-br",{dateStyle:"long"})}`);
+      const url_file = await this.generatePDFromString.Generate(html, fileName);
 
       const httpResponseMenssage = "Sucesso na requisição";
       return httpResponseMappingHandlerShared(
@@ -31,32 +17,44 @@ class GeneratePdfUploadToAwsService {
         url_file,
         httpResponseMenssage
       );
-      
     } catch (error) {
-      const httpResponseMenssage = "[Error] - Falha no Servidor"; 
-      return httpResponseMappingHandlerShared(false,[],httpResponseMenssage);
+      console.log(error);
+      return httpResponseMappingHandlerShared(false, [], error);
     }
   }
 
-  async getFileFromAWS(fileName) {
+  async generateMultiples(data) {
     try {
-      const data = await this.generatePDFromString.getFileFromAWS(fileName);
+      const result = [];
 
-      if (!data) {
-        throw httpResponseMappingHandlerShared(
-          false,
-          [],
-          "Erro ao listar arquivos pdf"
-        );
+      const fileName = data[0].fileName;
+      for (let html in data[0].dados){
+        const htmls = data[0].dados[html].html;
+        const urls = await this.generatePDFromString.Generate(htmls,fileName);
+        result.push(urls);
       }
 
-      const httpResponseMenssage = "Sucesso ao listar arquivos pdf";
-      return httpResponseMappingHandlerShared(true, data, httpResponseMenssage);
-
+      const httpResponseMenssage = "Sucesso na requisição";
+      return httpResponseMappingHandlerShared(
+        true,
+        result,
+        httpResponseMenssage
+      );
     } catch (error) {
       console.log(error);
-      const httpResponseMenssage = "[Error] - Falha no Servidor"; 
-      return httpResponseMappingHandlerShared(false, [], httpResponseMenssage);
+      return httpResponseMappingHandlerShared(false, [], error);
+    }
+  }
+
+  async getFileBykey(key) {
+    try {
+      const data = await this.generatePDFromString.getFileBykey(key);
+
+      const httpResponseMenssage = "[INFO] - Sucesso ao listar arquivos pdf";
+      return httpResponseMappingHandlerShared(true, data, httpResponseMenssage);
+    } catch (error) {
+      console.log(error);
+      return httpResponseMappingHandlerShared(false, [], error);
     }
   }
 }

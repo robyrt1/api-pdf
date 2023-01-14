@@ -1,4 +1,6 @@
-const { GeneratePdfUploadToAwsService } = require("../services/GeneratePdfUploadToAWS.service");
+const {
+  GeneratePdfUploadToAwsService,
+} = require("../services/GeneratePdfUploadToAWS.service");
 
 class GeneratePdfUploadToAwsController {
   constructor() {
@@ -7,21 +9,34 @@ class GeneratePdfUploadToAwsController {
 
   async generate(req, res) {
     try {
-      const { html, fileName } = req.body;     
-      const result = await this.generatePdfUploadToAwsService.generate(html, fileName);
-
+      const { html, fileName } = req.body;
+      const result = await this.generatePdfUploadToAwsService.generate(
+        html,
+        fileName
+      );
       res.status(200).json(result);
-      
     } catch (err) {
       res.status(500).json({ Error: err.message });
     }
   }
 
-  async getFileFromAWS(req, res ) {
+  async generateMultiples(req, res) {
     try {
-      const { fileName } = req.body;
-      const result = await this.generatePdfUploadToAwsService.getFileFromAWS(fileName);
-      
+      const result = await this.generatePdfUploadToAwsService.generateMultiples(
+        req.body
+      );
+      console.log(result);
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ Error: err.message });
+    }
+  }
+
+  async getFileFromAWS(req, res) {
+    try {
+      const { key } = req.body;
+      const result = await this.generatePdfUploadToAwsService.getFileBykey(key);
+
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json(error);
