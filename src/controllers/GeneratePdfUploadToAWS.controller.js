@@ -14,7 +14,7 @@ class GeneratePdfUploadToAwsController {
         html,
         fileName
       );
-      res.status(200).json(result);
+      res.status(result.statusCode).json(result);
     } catch (err) {
       res.status(500).json({ Error: err.message });
     }

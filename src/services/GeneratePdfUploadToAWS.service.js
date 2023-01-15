@@ -1,5 +1,6 @@
 const { GeneratePDFromString } = require("../util/generatePdf.util");
 const httpResponseMappingHandlerShared = require("../shared/httpResponseMappingHandler.shared");
+const { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } = require("../shared/constants/http.code");
 class GeneratePdfUploadToAwsService {
   constructor() {
     this.generatePDFromString = new GeneratePDFromString();
@@ -7,19 +8,36 @@ class GeneratePdfUploadToAwsService {
   async generate(html, fileName) {
     try {
       if (typeof html != "string")
-        throw `[ERROR] - Tipo: ${typeof html} invalido, correto é string!`;
+        throw httpResponseMappingHandlerShared(
+          BAD_REQUEST,
+          false,
+          [],
+          `[ERROR] - Tipo: ${typeof html} invalido, correto é string!`
+        );
 
       const url_file = await this.generatePDFromString.Generate(html, fileName);
 
       const httpResponseMenssage = "Sucesso na requisição";
       return httpResponseMappingHandlerShared(
+        OK,
         true,
         url_file,
         httpResponseMenssage
       );
     } catch (error) {
-      console.log(error);
-      return httpResponseMappingHandlerShared(false, [], error);
+      return error.statusCode
+        ? httpResponseMappingHandlerShared(
+          error.statusCode,
+          false,
+          [],
+          error.message
+        )
+        : httpResponseMappingHandlerShared(
+          INTERNAL_SERVER_ERROR,
+          false,
+          [],
+          "[INFO] - Falha no servidor!"
+        );
     }
   }
 
@@ -28,9 +46,9 @@ class GeneratePdfUploadToAwsService {
       const result = [];
 
       const fileName = data[0].fileName;
-      for (let html in data[0].dados){
+      for (let html in data[0].dados) {
         const htmls = data[0].dados[html].html;
-        const urls = await this.generatePDFromString.Generate(htmls,fileName);
+        const urls = await this.generatePDFromString.Generate(htmls, fileName);
         result.push(urls);
       }
 
@@ -41,8 +59,7 @@ class GeneratePdfUploadToAwsService {
         httpResponseMenssage
       );
     } catch (error) {
-      console.log(error);
-      return httpResponseMappingHandlerShared(false, [], error);
+      return httpResponseMappingHandlerShared(INTERNAL_SERVER_ERROR,false, [], error);
     }
   }
 
