@@ -44,16 +44,18 @@ class GeneratePdfUploadToAwsService {
   async generateMultiples(data) {
     try {
       const result = [];
-
       const fileName = data[0].fileName;
+
       for (let html in data[0].dados) {
         const htmls = data[0].dados[html].html;
-        const urls = await this.generatePDFromString.Generate(htmls, fileName);
-        result.push(urls);
+        const detalhes = data[0].dados[html].detalhes;
+        const link = await this.generatePDFromString.Generate(htmls, fileName);
+        detalhes? result.push({detalhes,link}): result.push(link); 
       }
-
+ 
       const httpResponseMenssage = "Sucesso na requisição";
       return httpResponseMappingHandlerShared(
+        OK,
         true,
         result,
         httpResponseMenssage

@@ -27,7 +27,7 @@ class ExpressConfig {
     });
   }
   setErrorLogHandlers() {
-    this.getServer().use(function (error, req, res,next) {
+    this.getServer().use(function (error, req, res, next) {
       console.error(error);
       res.status(error.statusCode || 500).json(error);
     });
@@ -35,8 +35,8 @@ class ExpressConfig {
   init() {
     this.setServer();
     const middlewares = [
-      bodyParser.json(),
-      bodyParser.urlencoded({ extended: false }),
+      bodyParser.json({limit:"50mb"}),
+      bodyParser.urlencoded({ limit:"50mb",extended: false }),
     ];
     this.setMiddlewares(middlewares);
     this.setRoutes(routes);
