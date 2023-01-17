@@ -30,7 +30,6 @@ class AwsConfig {
 
   execUpload(fileName, response) {
     return new Promise((resolve, reject) => {
-      console.log(fileName);
       const params = {
         Bucket: "storage-samel",
         ACL: "public-read",

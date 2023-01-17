@@ -25,7 +25,6 @@ class GeneratePdfUploadToAwsController {
       const result = await this.generatePdfUploadToAwsService.generateMultiples(
         req.body
       );
-      console.log(result);
       res.status(result.statusCode).json(result);
     } catch (err) {
       res.status(500).json({ Error: err.message });

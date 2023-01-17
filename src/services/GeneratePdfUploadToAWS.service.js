@@ -1,6 +1,10 @@
 const { GeneratePDFromString } = require("../util/generatePdf.util");
 const httpResponseMappingHandlerShared = require("../shared/httpResponseMappingHandler.shared");
-const { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } = require("../shared/constants/http.code");
+const {
+  OK,
+  INTERNAL_SERVER_ERROR,
+  BAD_REQUEST,
+} = require("../shared/constants/http.code");
 class GeneratePdfUploadToAwsService {
   constructor() {
     this.generatePDFromString = new GeneratePDFromString();
@@ -50,9 +54,9 @@ class GeneratePdfUploadToAwsService {
         const htmls = data[0].dados[html].html;
         const detalhes = data[0].dados[html].detalhes;
         const link = await this.generatePDFromString.Generate(htmls, fileName);
-        detalhes? result.push({detalhes,link}): result.push(link); 
+        detalhes ? result.push({ detalhes, link }) : result.push(link);
       }
- 
+      
       const httpResponseMenssage = "[INFO] - Sucesso na requisição!";
       return httpResponseMappingHandlerShared(
         OK,
@@ -61,7 +65,12 @@ class GeneratePdfUploadToAwsService {
         httpResponseMenssage
       );
     } catch (error) {
-      return httpResponseMappingHandlerShared(INTERNAL_SERVER_ERROR,false, [], error);
+      return httpResponseMappingHandlerShared(
+        INTERNAL_SERVER_ERROR,
+        false,
+        [],
+        error
+      );
     }
   }
 
@@ -69,11 +78,36 @@ class GeneratePdfUploadToAwsService {
     try {
       const data = await this.generatePDFromString.getFileBykey(key);
 
+      if (data.length === 0)
+        throw httpResponseMappingHandlerShared(
+          400,
+          false,
+          [],
+          `[ERROR] - Key/Nome do arquivo invalido!`
+        );
+
       const httpResponseMenssage = "[INFO] - Sucesso ao listar arquivos pdf";
-      return httpResponseMappingHandlerShared(true, data, httpResponseMenssage);
+      return httpResponseMappingHandlerShared(
+        OK,
+        true,
+        data,
+        httpResponseMenssage
+      );
     } catch (error) {
       console.log(error);
-      return httpResponseMappingHandlerShared(false, [], error);
+      return error.statusCode
+        ? httpResponseMappingHandlerShared(
+          error.statusCode,
+          false,
+          [],
+          error.message
+        )
+        : httpResponseMappingHandlerShared(
+          INTERNAL_SERVER_ERROR,
+          false,
+          [],
+          "[INFO] - Falha no servidor!"
+        );
     }
   }
 }

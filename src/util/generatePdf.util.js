@@ -22,7 +22,7 @@ class GeneratePDFromString {
           height: "10mm",
         },
       };
-      pdf.create(data, options).toStream(async (error, response) => {
+      pdf.create(data, options).toStream((error, response) => {
         if (error) {
           console.log(error.message);
           reject(error.message);
@@ -34,27 +34,25 @@ class GeneratePDFromString {
     });
   }
 
-  getFileBykey(fileName) {
-    return new Promise((resolve, reject) => {
+  async getFileBykey(fileName) {
+    try {
       const params = {
         Bucket: "storage-samel",
         EncodingType: "url",
         Prefix: `${fileName}`,
       };
 
-      this.awsConfig.listeObjects(params).then((key) => {
-        const url_keys = mountingFileUrls(
-          key,
-          this.environmentShared.getEnv("URL_FILE_AWS")
-        );
-        if (url_keys.length === 0)
-          reject("[ERROR] - Key/Nome do arquivo invalido!");
+      const key = await this.awsConfig.listeObjects(params);
+      const url_keys = mountingFileUrls(
+        key,
+        this.environmentShared.getEnv("URL_FILE_AWS")
+      );
 
-        resolve(url_keys);
-      });
-    });
+      return url_keys;
+    } catch (error) {
+      return error;
+    }
   }
-
 
   generatePdfSaveLocation(data, options, fileNamePdf) {
     return new Promise((resolve, reject) => {
@@ -75,3 +73,4 @@ class GeneratePDFromString {
 }
 
 module.exports = { GeneratePDFromString };
+
