@@ -26,7 +26,7 @@ class GeneratePdfUploadToAwsController {
         req.body
       );
       console.log(result);
-      res.status(200).json(result);
+      res.status(result.statusCode).json(result);
     } catch (err) {
       res.status(500).json({ Error: err.message });
     }
@@ -37,7 +37,7 @@ class GeneratePdfUploadToAwsController {
       const { key } = req.body;
       const result = await this.generatePdfUploadToAwsService.getFileBykey(key);
 
-      res.status(200).json(result);
+      res.status(result.statusCode).json(result);
     } catch (error) {
       res.status(500).json(error);
     }
