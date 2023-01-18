@@ -31,10 +31,10 @@ class AwsConfig {
   execUpload(fileName, response) {
     return new Promise((resolve, reject) => {
       const params = {
-        Bucket: "storage-samel",
-        ACL: "public-read",
-        Key: `${fileName}-${uuidv4()}`,
         Body: response,
+        Key: `${fileName}-${uuidv4()}`,
+        ACL: "public-read",
+        Bucket: "storage-samel",
         ContentType: "application/pdf",
       };
       this.getConnection().upload(params, function (err, data) {

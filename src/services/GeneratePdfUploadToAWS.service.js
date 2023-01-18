@@ -20,7 +20,7 @@ class GeneratePdfUploadToAwsService {
         );
 
       const url_file = await this.generatePDFromString.Generate(html, fileName);
-
+          
       const httpResponseMenssage = "Sucesso na requisição";
       return httpResponseMappingHandlerShared(
         OK,
@@ -48,10 +48,10 @@ class GeneratePdfUploadToAwsService {
   async generateMultiples(data) {
     try {
       const result = [];
-      const fileName = data[0].fileName;
-
+      
       for (let html in data[0].dados) {
         const htmls = data[0].dados[html].html;
+        const fileName = data[0].dados[html].fileName;
         const detalhes = data[0].dados[html].detalhes;
         const link = await this.generatePDFromString.Generate(htmls, fileName);
         detalhes ? result.push({ detalhes, link }) : result.push(link);
@@ -85,7 +85,6 @@ class GeneratePdfUploadToAwsService {
           [],
           `[ERROR] - Key/Nome do arquivo invalido!`
         );
-
       const httpResponseMenssage = "[INFO] - Sucesso ao listar arquivos pdf";
       return httpResponseMappingHandlerShared(
         OK,

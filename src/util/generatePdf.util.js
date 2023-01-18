@@ -35,7 +35,8 @@ class GeneratePDFromString {
   }
 
   async getFileBykey(fileName) {
-    try {
+    try { 
+      console.log(fileName);
       const params = {
         Bucket: "storage-samel",
         EncodingType: "url",
@@ -47,7 +48,6 @@ class GeneratePDFromString {
         key,
         this.environmentShared.getEnv("URL_FILE_AWS")
       );
-
       return url_keys;
     } catch (error) {
       return error;
