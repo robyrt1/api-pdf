@@ -8,13 +8,19 @@ const generatePdfUploadToAwsRouter = (app) => {
     generatePdfUploadToAwsController.generate(req, res);
   });
 
+  app.post("/generateMultiples", (req, res) => {
+    generatePdfUploadToAwsController.generateMultiples(req, res);
+  });
+
+  app.post("/generateSaveLocation",(req,res)=>{
+    generatePdfUploadToAwsController.generateSaveLacation(req, res);
+  });
+
   app.post("/fetch_file", (req, res) => {
     generatePdfUploadToAwsController.getFileFromAWS(req, res);
   });
 
-  app.post("/generateMultiples", (req, res) => {
-    generatePdfUploadToAwsController.generateMultiples(req, res);
-  });
 };
 
 module.exports = generatePdfUploadToAwsRouter;
+

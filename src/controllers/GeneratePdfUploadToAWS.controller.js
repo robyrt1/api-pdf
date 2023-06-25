@@ -2,6 +2,7 @@ const {
   GeneratePdfUploadToAwsService,
 } = require("../services/GeneratePdfUploadToAWS.service");
 
+
 class GeneratePdfUploadToAwsController {
   constructor() {
     this.generatePdfUploadToAwsService = new GeneratePdfUploadToAwsService();
@@ -31,6 +32,14 @@ class GeneratePdfUploadToAwsController {
     }
   }
 
+  async generateSaveLacation(req,res){
+    const { html, fileName } = req.body;
+    const result = await this.generatePdfUploadToAwsService.generateSaveLacation(html, fileName);
+    res.setHeader("content-disposition", 'incline; filename="output.pdf');
+    res.setHeader("content-type", "application/pdf");
+    result.pipe(res);
+  }
+
   async getFileFromAWS(req, res) {
     try {
       const { key } = req.body;
@@ -43,3 +52,4 @@ class GeneratePdfUploadToAwsController {
 }
 
 module.exports = { GeneratePdfUploadToAwsController };
+
