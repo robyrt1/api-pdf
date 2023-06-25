@@ -34,7 +34,7 @@ class AwsConfig {
         Body: response,
         Key: `${fileName}-${uuidv4()}`,
         ACL: "public-read",
-        Bucket: "storage-samel",
+        Bucket: "name_bucket",
         ContentType: "application/pdf",
       };
       this.getConnection().upload(params, function (err, data) {
