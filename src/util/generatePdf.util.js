@@ -27,16 +27,16 @@ class GeneratePDFromString {
           console.log(error.message);
           reject(error.message);
         }
-        this.awsConfig.execUpload(fileName, response).then((data) => {
-          resolve(data);
-        });
+        if (response == undefined) {
+          reject("Error no servidor");
+        }
+        resolve({response:response,filename:fileName});
       });
     });
   }
 
   async getFileBykey(fileName) {
-    try { 
-      console.log(fileName);
+    try {
       const params = {
         Bucket: "storage-samel",
         EncodingType: "url",
@@ -54,12 +54,23 @@ class GeneratePDFromString {
     }
   }
 
-  generatePdfSaveLocation(data, options, fileNamePdf) {
+  generatePdfSaveLocation(data, fileNamePdf) {
     return new Promise((resolve, reject) => {
       const TMP_FILE_PATH =
-        this.environmentShared("TMP_FILE_PATH") || "./uploads";
+        this.environmentShared.getEnv("TMP_FILE_PATH") || "./uploads";
       const fileName = `${fileNamePdf}-${uuidv4()}.pdf`;
       const filePath = `${TMP_FILE_PATH}/${fileName}`;
+      const options = {
+        format: "A4",
+        type: "pdf",
+        zoomFactor: "0.1",
+        header: {
+          height: "5mm",
+        },
+        footer: {
+          height: "10mm",
+        },
+      };
 
       pdf.create(data, options).toFile(filePath, (error) => {
         if (error) {
@@ -73,4 +84,3 @@ class GeneratePDFromString {
 }
 
 module.exports = { GeneratePDFromString };
-
